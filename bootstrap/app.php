@@ -4,7 +4,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -16,14 +16,19 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->api();
+
         $middleware->alias([
-            'auth' => \App\Http\Middleware\Authenticate::class,
+            'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->render(function (AuthenticationException $exception, Request $request) {
-            return response()->json([
-                'message' => 'Não autorizado',
-            ], Response::HTTP_UNAUTHORIZED);
+            if($request->expectsJson()) {
+                return response()->json([
+                    'message' => 'Não autorizado',
+                ], Response::HTTP_UNAUTHORIZED);
+            }
+
+            return redirect()->route('login');
         });
     })->create();
