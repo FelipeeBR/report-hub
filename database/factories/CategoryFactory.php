@@ -16,9 +16,25 @@ class CategoryFactory extends Factory
      */
     public function definition(): array
     {
+        $categories = [
+            'Smartphones',
+            'Notebooks',
+            'Tablets',
+            'Televisores',
+            'Monitores',
+            'Áudio',
+            'Fones de Ouvido',
+            'Câmeras',
+            'Consoles',
+            'Periféricos',
+            'Armazenamento',
+            'Acessórios',
+            'Impressoras',
+            'Redes e Roteadores'
+        ];
         return [
-            'name' => $this->faker->words(2, true),
-            'description' => $this->faker->text(),
+            'name' => $this->faker->randomElement($categories),
+            'description' => $this->faker->sentence(10),
         ];
     }
 }
