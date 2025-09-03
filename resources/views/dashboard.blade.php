@@ -33,7 +33,7 @@
                     <input type="text" name="product" id="product" class="w-full rounded-lg border-gray-300 bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500">
                 </div>
                 <div>
-                    <label for="total" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Total</label>
+                    <label for="total" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Até R$</label>
                     <input type="number" name="total" id="total" class="w-full rounded-lg border-gray-300 bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500">
                 </div>
                 <div class="flex items-end">

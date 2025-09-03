@@ -26,9 +26,25 @@ class DashboardService
         })->orderBy('created_at', 'desc')->paginate(15);
     }
 
-    public function getProductClient($product) {
-        return Sale::with(['product'])->whereHas('product', function ($q) use ($product) {
-            $q->where('name', 'like', '%' . $product . '%');
-        })->orderBy('created_at', 'desc')->paginate(15);
+    public function getSales(array $filters) {
+        $query = Sale::with(['user', 'product'])->orderBy('created_at', 'desc');
+
+        if(!empty($filters['name'])) {
+            $query->whereHas('user', function ($q) use ($filters) {
+                $q->where('name', 'like', '%' . $filters['name'] . '%');
+            });
+        }
+
+        if(!empty($filters['product'])) {
+            $query->whereHas('product', function ($q) use ($filters) {
+                $q->where('name', 'like', '%' . $filters['product'] . '%');
+            });
+        }
+
+        if(!empty($filters['total'])) {
+            $query->where('total', '<=', $filters['total']);
+        }
+
+        return $query->paginate(15);
     }
 }
