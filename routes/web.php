@@ -24,4 +24,5 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // Rotas Protegidas
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::post('/generate-pdf', [DashboardController::class, 'generatePdf'])->name('generate-pdf');
 });

@@ -22,26 +22,32 @@
     </header>
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 mb-8">
         <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Filtrar Vendas</h2>
-        <form action="{{ route('dashboard') }}" method="get">
+        <form action="{{ route('dashboard') }}" method="get" id="filterForm">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
                 <div>
                     <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nome do cliente</label>
-                    <input type="text" name="name" id="name" class="w-full rounded-lg border-gray-300 bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    <input type="text" name="name" id="name" class="w-full rounded-lg border-gray-300 bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500" value="{{ request('name') }}">
                 </div>
                 <div>
                     <label for="product" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Produto</label>
-                    <input type="text" name="product" id="product" class="w-full rounded-lg border-gray-300 bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    <input type="text" name="product" id="product" class="w-full rounded-lg border-gray-300 bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500" value="{{ request('product') }}">
                 </div>
                 <div>
                     <label for="total" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Até R$</label>
-                    <input type="number" name="total" id="total" class="w-full rounded-lg border-gray-300 bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    <input type="number" name="total" id="total" class="w-full rounded-lg border-gray-300 bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500" value="{{ request('total') }}">
                 </div>
-                <div class="flex items-end">
-                    <button type="submit" class="w-full inline-flex justify-center items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <div class="flex items-end gap-2">
+                    <button type="submit" class="w-full inline-flex cursor-pointer justify-center items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
                         </svg>
                         Filtrar
+                    </button>
+                    <button type="button" onclick="generatePDF()" class="w-full inline-flex cursor-pointer justify-center items-center px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white font-medium rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                        </svg>
+                        Gerar PDF
                     </button>
                 </div>
             </div>
@@ -90,3 +96,29 @@
     </div>
 </div>
 @endsection
+
+<script>
+    function generatePDF() {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '{{ route("generate-pdf") }}';
+        
+        const csrfToken = document.createElement('input');
+        csrfToken.type = 'hidden';
+        csrfToken.name = '_token';
+        csrfToken.value = '{{ csrf_token() }}';
+        form.appendChild(csrfToken);
+        
+        const filters = ['name', 'product', 'total'];
+        filters.forEach(filter => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = filter;
+            input.value = document.getElementById(filter).value;
+            form.appendChild(input);
+        });
+        
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
