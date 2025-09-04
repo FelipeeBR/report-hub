@@ -9,9 +9,13 @@ Este projeto demonstra como utilizar RabbitMQ para processamento assíncrono de 
 
 ## Fluxo da aplicação:
 1 - Usuário solicita um relatório.
+
 2 - O sistema gera o PDF e salva no storage.
+
 3 - É criada uma Job que é enviada para a fila do RabbitMQ.
+
 4 - O Worker consome a fila, processa a Job e envia o email.
+
 5 - O PDF é apagado do servidor após o envio.
 
 ## Código de exemplo:
