@@ -59,4 +59,8 @@ composer install
 cp .env.example .env
 php artisan key:generate
 ```
+## Subir containers (Laravel + MySQL + RabbitMQ)
+```
+docker-compose up -d
+```
 
