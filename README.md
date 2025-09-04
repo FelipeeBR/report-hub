@@ -63,4 +63,13 @@ php artisan key:generate
 ```
 docker-compose up -d
 ```
+## Defina as credenciais do RabbitMQ:
+```
+QUEUE_CONNECTION=rabbitmq
+RABBITMQ_HOST=rabbitmq
+RABBITMQ_PORT=5672
+RABBITMQ_USER=guest
+RABBITMQ_PASSWORD=guest
+RABBITMQ_VHOST=/
+```
 
