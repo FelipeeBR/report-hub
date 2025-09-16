@@ -1,8 +1,8 @@
-# Implementação Laravel + RabbitMQ (Filas e Jobs) + API
+# Implementação Laravel + RabbitMQ (Filas e Jobs)
 Este projeto demonstra como utilizar RabbitMQ para processamento assíncrono de relatórios em um projeto Laravel, simulando o envio de relatórios em PDF por email através de filas e jobs.
 
 ## O que o projeto faz?
-- Filtra vendas realizadas de clientes (Nome, Produto, Valor Máximo) utilizando RabbitMQ.
+- Filtra vendas realizadas de clientes (Nome, Produto, Valor Máximo).
 - Gera relatórios em PDF a partir de filtros enviados pelo usuário.
 - Salva o PDF temporariamente no servidor.
 - Envia o PDF por email de forma assíncrona utilizando RabbitMQ.
